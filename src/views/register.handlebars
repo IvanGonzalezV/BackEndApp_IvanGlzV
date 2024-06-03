@@ -1,0 +1,27 @@
+{{#unless failedLogin}}
+<form class="form" method="post" action="/api/sessions/register">
+    <div class="title">
+        Welcome,<br><span>register to continue</span>
+    </div>
+    <input class="input" name="first_name" placeholder="First name" type="text">
+    <input class="input" name="last_name" placeholder="Last name" type="text">
+    <input class="input" name="email" placeholder="Email" type="email">
+    <input class="input" name="age" placeholder="Age" type="number">
+    <input class="input" name="password" placeholder="Password" type="password">
+    <div class="status-div">
+        <span>Admin</span>
+        <div class="radio-input-div">
+            <input id="radio-true" type="radio" name="isAdmin" value="true">
+            <label for="radio-true">True</label>
+            <input id="radio-false" type="radio" name="isAdmin" value="false" checked="true">
+            <label for="radio-false">False</label>
+        </div>
+    </div>
+    <button class="button-confirm" type="submit">Register→</button>
+    {{#if failedRegister}}
+    <p style="color:red">hubo un error al registrarse</p>
+    {{/if}}
+    <a href="http://localhost:8080/login">I already have an account</a>
+    <a href="/api/sessions/auth/github">Login with GitHub</a>
+</form>
+{{/unless}}

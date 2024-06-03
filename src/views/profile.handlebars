@@ -1,0 +1,15 @@
+    <form method="post" action="api/sessions/logout">
+        <button type="submit">log out</button>
+    </form>
+    
+    <div>
+        <h1> PROFILE </h1>
+        <div>
+            <p>First Name: {{user.first_name}}</p>
+            <p>Last Name: {{user.last_name}}</p>
+            <p>Email: {{user.email}}</p>
+            <p>Age: {{user.age}}</p>
+            <p>Role: {{#if user.isAdmin}} admin {{else}} user {{/if}}</p>
+        </div>
+    </div>
+    

@@ -1,0 +1,29 @@
+<header>
+    <a href="http://localhost:8080/carts/6621781387846930f3efb0c2">cart</a>
+</header>
+<h1> Bienvenid@ {{user.first_name}} {{user.last_name}}</h1>
+<hr>
+<div>
+    <div id="products">
+    {{#each products}}
+        <div class="card">
+            <span>titulo: {{this.title}}</span>
+            <span>descripcion: {{this.description}}</span>
+            <span>precio: ${{this.price}}</span>
+            <span>categoria: {{this.category}}</span>
+            <span>thumbnails: {{this.thumbnails}}</span>
+
+            <span>id: {{this._id}}</span>
+            <button class="button-delete" data-productid={{this._id}}>add to cart</button>
+        </div>
+    {{/each}}
+    </div>
+</div>
+<div class="browse-pages" id="browsePages">
+    <a class="previous-page" href="http://localhost:8080/products?page={{previousPage}}"><<</a>
+    <a class="next-page" href="http://localhost:8080/products?page={{nextPage}}">>></a>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="/js/productsWithPaginate.js"></script>

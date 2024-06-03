@@ -1,0 +1,42 @@
+<form class="form" id="createProductsForm">
+    <div class="title">
+        Add a product
+    </div>
+    <input class="input" id="title" name="title" placeholder="Title" type="text">
+    <input class="input" id="description" name="description" placeholder="Description" type="text">
+    <input class="input" id="price" name="price" placeholder="Price" type="text">
+    <input class="input" id="stock" name="stock" placeholder="Stock" type="text">
+    <input class="input" id="category" name="category" placeholder="Category" type="text">
+    <div class="status-div">
+        <span>Status</span>
+        <div class="radio-input-div">
+            <input id="radio-true" type="radio" name="status" value="true" checked="true">
+            <label for="radio-true">True</label>
+            <input id="radio-false" type="radio" name="status" value="false">
+            <label for="radio-false">False</label>
+        </div>
+    </div>
+    <button class="button-confirm" id="button-confirm">Add</button>
+</form>
+<div class="products" id="products">
+    <div class="products" id="productsHandlebars">
+{{#each products}}
+    <div class="card">
+        <span>Título: {{this.title}}</span>
+        <span>Descripción: {{this.description}}</span>
+        <span>Precio: ${{this.price}}</span>
+        <span>Stock: {{this.stock}}</span>
+        <span>Categoria: {{this.category}}</span>
+        <span>Thumbnails: {{this.thumbnails}}</span>
+        <span>Status: {{this.status}}</span>
+        <span>ID: {{this._id}}</span>
+        <button class="button-delete" data-productid={{this._id}}>X</button>
+    </div>
+{{/each}}
+    </div>
+</div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="/js/realTimeProducts.js"></script>

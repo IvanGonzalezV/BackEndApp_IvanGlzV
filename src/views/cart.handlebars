@@ -1,0 +1,30 @@
+
+    <div class="products" id="products">
+        <div  class="products" id="productsHandlebars">
+    {{#if products}}
+        {{#each products}}
+        <div class="card">
+            <span>titulo: {{this.product.title}}</span>
+            <span>descripcion: {{this.product.description}}</span>
+            <span>precio: ${{this.product.price}}</span>
+            <span>categoria: {{this.product.category}}</span>
+            <span>thumbnails: {{this.product.thumbnails}}</span>
+            <span>id: {{this.product._id}}</span>
+            <span> quantity: {{this.quantity}}</span>
+            <button class="button-delete" data-productid={{this.product._id}}>X</button>
+        </div>
+    {{/each}}
+    {{/if}}
+    {{#unless products}}
+    <div class="carrito-vacio">
+        <h1>CARRITO VACÍO</h1>
+        <a href="http://localhost:8080/products">volver a productos</a>
+    </div>
+    {{/unless}}
+        </div>
+    </div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="/js/cart.js"></script>
