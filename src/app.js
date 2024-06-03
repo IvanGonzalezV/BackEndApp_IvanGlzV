@@ -16,8 +16,9 @@ import { PMDB } from "./dao/Dao/productManagerDB.js"
 import { CMDB } from "./dao/Dao/cartManagerDB.js"
 import { authorize } from './middlewares/auth.js';
 import { requireRole } from './middlewares/auth.js';
-import config from './config.js';
+import config from './config.js'; 
 import nodemailer from 'nodemailer';
+import twilio from 'twilio';
 
 const app = express()
 
@@ -228,7 +229,11 @@ app.post('/mail', async (req, res) => {
             <h1>¡Wassup!</h1>
             <p>Este es un correo de prueba.</p>
         </div>`,
-        attachments: []
+        attachments: [{
+            filename: 'Buitre_01.jpg',
+            path: './public/imgs/buitre_01.jpg',
+            cid: 'buitre'
+        }]
     };
 
      try {
@@ -238,5 +243,29 @@ app.post('/mail', async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error al enviar el correo.');
+    }
+});
+
+app.get('/mail', (req, res) => {
+    res.send('Ruta GET /mail funcionando correctamente.');
+});
+
+
+//sms (twilio)
+app.get('/sms', async (req, res) => {
+    const accountSid = process.env.TWILIO_ACCOUNT_SID;
+    const authToken = process.env.TWILIO_AUTH_TOKEN;
+    const client = twilio(accountSid, authToken);
+
+    try {
+        await client.messages.create({
+            body: '¡Wassup Dough! Este es un SMS de prueba, loco.',
+            from: process.env.TWILIO_SMS_NUMBER,
+            to: '+525522203242'
+        });
+        res.send('SMS enviado correctamente.');
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error al enviar el SMS.');
     }
 });
