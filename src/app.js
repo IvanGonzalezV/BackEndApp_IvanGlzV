@@ -12,8 +12,8 @@ import viewsRouter from "./routes/viewsRouter.js"
 import cookiesRouter from "./routes/cookiesRouter.js"
 import sessionsRouter from "./routes/sessionsRouter.js"
 import __dirname from "./utils.js"
-import { PMDB } from "./dao/Dao/productManagerDB.js"
-import { CMDB } from "./dao/Dao/cartManagerDB.js"
+import { PMDB } from "./dao/productManagerDB.js"
+import { CMDB } from "./dao/cartManagerDB.js"
 import { authorize } from './middlewares/auth.js';
 import { requireRole } from './middlewares/auth.js';
 import config from './config.js'; 
