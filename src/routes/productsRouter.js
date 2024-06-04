@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { PMDB } from "../dao/Dao/productManagerDB.js";
+import { PMDB } from "../dao/productManagerDB.js";
 import { productModel } from "../dao/models/productModel.js";
 
 const router = Router()

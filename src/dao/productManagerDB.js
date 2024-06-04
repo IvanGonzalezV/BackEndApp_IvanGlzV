@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import { productModel } from "../models/productModel.js"
+import { productModel } from "../dao/models/productModel.js"
 import { paginate } from "mongoose-paginate-v2"
 
 export class productManagerDB {

@@ -1,7 +1,7 @@
-import { PMDB } from "../dao/Dao/productManagerDB.js";
+import { PMDB } from "../dao/productManagerDB.js";
 import { Router } from "express";
 import { productModel } from "../dao/models/productModel.js";
-import { CMDB } from "../dao/Dao/cartManagerDB.js";
+import { CMDB } from "../dao/cartManagerDB.js";
 import { cartModel } from "../dao/models/cartModel.js";
 import { auth, authLogged } from "../middlewares/auth.js";
 

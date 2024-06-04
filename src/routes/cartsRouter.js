@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { CMDB } from "../dao/Dao/cartManagerDB.js";
+import { CMDB } from "../dao/cartManagerDB.js";
 // import { cartModel } from "../dao/models/cartModel.js"
 import { cartModel } from "../dao/models/cartModel.js"
 
