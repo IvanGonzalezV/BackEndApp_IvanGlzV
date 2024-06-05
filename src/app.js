@@ -61,6 +61,11 @@ app.use("/auth", sessionsRouter)
 app.use("/", viewsRouter)
 app.use("/cookies", cookiesRouter)
 
+app.post("/api/admin", (req, res) => {
+  // Tu código aquí. Por ejemplo, puedes enviar una respuesta de prueba:
+  res.send('Ruta POST /api/admin alcanzada');
+});
+
 // Ruta protegida
 app.get('/some-protected-route', authorize, (req, res) => {
   // validar el codigo para manejar la ruta

@@ -3,8 +3,26 @@ import userModel from "../dao/models/userModel.js"
 import bcrypt from 'bcrypt';
 import passport from "passport";
 import express from "express";
+import checkRole from '../middlewares/checkRole.js';
+import bodyParser from 'body-parser';
+
+const app = express();
+
+app.use(bodyParser.json());
 
 const router = express.Router()
+
+router.post('/api/admin', checkRole(true), async (req, res) => {
+    const { first_name, last_name, email, age, password, isAdmin } = req.body;
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = await userModel.create({ first_name, last_name, email, age, password: hashedPassword, isAdmin });
+        res.status(201).json(user);
+    } catch (error) {
+        res.status(500).json({ error: error.toString() });
+    }
+});
 
 router.post("/register", async (req, res)=> {
 

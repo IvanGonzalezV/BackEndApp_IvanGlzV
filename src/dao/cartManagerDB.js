@@ -1,4 +1,5 @@
 import { cartModel } from "../dao/models/cartModel.js"
+import { productModel } from "../dao/models/productModel.js"
 
 export class cartManagerDB {
 
@@ -114,54 +115,70 @@ export class cartManagerDB {
     }
 
     async addProductToCart(productId, cartId) {
-        try {
-            // Buscar el carrito por su cartId
-            let cart = await cartModel.findById(cartId);
+    try {
+        // Buscar el producto por su productId
+        const product = await productModel.findById(productId);
 
-            // Si el carrito no existe, crear uno nuevo
-            if (!cart) {
-                cart = new cartModel({ _id: cartId, products: [] });
-            }
-
-            // Agregar el producto al carrito
-            cart.products.push({ product: productId, quantity: 1 });
-
-            // Guardar el carrito en la base de datos
-            await cart.save();
-
-            return cart;
-        } catch (error) {
-            console.error(error.message);
+        // Si el producto no existe o no hay suficiente stock, lanzar un error
+        if (!product || product.stock < 1) {
+            throw new Error('Producto no disponible o sin stock');
         }
-    }
 
-    async deleteProductFromCart(productId, cartId) { //FUNCIONA!!!!!!!!
+        // Buscar el carrito por su cartId
+        let cart = await cartModel.findById(cartId);
 
-        try{
-
-            const validateProduct = await cartModel.findOne({_id:cartId, "products.product": productId})
-
-            if(!validateProduct){
-
-                return
-
-            }
-
-            const result = await cartModel.updateOne({_id:cartId, "products.product": productId},{$pull: { products: {product: productId }}})
-
-            if(!result){
-                
-                return
-            }
-            
-            return result
-
-        }catch(error){
-
-            console.error(error.message)
-
+        // Si el carrito no existe, crear uno nuevo
+        if (!cart) {
+            cart = new cartModel({ _id: cartId, products: [] });
         }
+
+        // Agregar el producto al carrito
+        cart.products.push({ product: productId, quantity: 1 });
+
+        // Guardar el carrito en la base de datos
+        await cart.save();
+
+        // Reducir el stock del producto en 1
+        product.stock -= 1;
+        await product.save();
+
+        return cart;
+    } catch (error) {
+        console.error(error.message);
     }
+}
+
+    async deleteProductFromCart(productId, cartId) {
+    try {
+        // Busca el producto por productId
+        const product = await productModel.findById(productId);
+
+        // Si el producto no existe, lanza error
+        if (!product) {
+            throw new Error('Producto no encontrado');
+        }
+
+        const validateProduct = await cartModel.findOne({_id:cartId, "products.product": productId})
+
+        if(!validateProduct){
+            return
+        }
+
+        const result = await cartModel.updateOne({_id:cartId, "products.product": productId},{$pull: { products: {product: productId }}})
+
+        if(!result){
+            return
+        }
+
+        // Incrementar el stock del producto en 1
+        product.stock += 1;
+        await product.save();
+
+        return result;
+    } catch (error) {
+        console.error(error.message);
+    }
+}
 
     async deleteAllProductsFromCart(cartId){ //FUNCIONS, despues puedo modificarla para que primero verifique que haya productos en el carrito antes de eliminar
 

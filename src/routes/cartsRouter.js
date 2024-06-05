@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { CMDB } from "../dao/cartManagerDB.js";
-// import { cartModel } from "../dao/models/cartModel.js"
 import { cartModel } from "../dao/models/cartModel.js"
+import { Ticket } from "../dao/models/ticketModel.js"
 
 
 const router = Router()
@@ -41,6 +41,45 @@ router.post("/:cartid/products/:productid", async (req, res)=>{
     } catch(error) {
         console.error(error.message);
     }
+});
+
+router.post('/:cid/purchase', async (req, res) => {
+    const cartId = req.params.cid;
+    const cart = await CMDB.getCart(cartId);
+
+    if (!cart) {
+        return res.status(404).send({ error: 'Carrito no encontrado' });
+    }
+
+    const failedProducts = [];
+    let totalAmount = 0;
+
+    for (const product of cart.products) {
+        if (product.quantity > product.product.stock) {
+            failedProducts.push(product.product._id);
+        } else {
+            totalAmount += product.quantity * product.product.price;
+            product.product.stock -= product.quantity;
+            await product.product.save();
+        }
+    }
+
+    if (failedProducts.length > 0) {
+        return res.status(400).send({ error: 'No se pudo procesar la compra', failedProducts });
+    }
+
+    const Ticket = new Ticket({
+        code: generateUniqueCode(), // Necesitas implementar esta función
+        amount: totalAmount,
+        purchaser: req.session.user.email // Asegúrate de que el usuario esté en la sesión
+    });
+
+    await Ticket.save();
+
+    cart.products = cart.products.filter(product => !failedProducts.includes(product.product._id));
+    await cart.save();
+
+    res.send({ message: 'Compra exitosa', Ticket });
 });
 
 router.get("/", async (req, res)=>{
