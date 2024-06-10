@@ -19,6 +19,7 @@ import { requireRole } from "./middlewares/auth.js";
 import config from "./config.js";
 import nodemailer from "nodemailer";
 import twilio from "twilio";
+import checkRole from "./middlewares/checkRole.js";
 import { fakerDE as faker } from "@faker-js/faker";
 import logger from "./logger.js";
 
@@ -62,35 +63,48 @@ app.use("/", viewsRouter);
 app.use("/cookies", cookiesRouter);
 
 app.post("/api/admin", (req, res) => {
-  // Tu código aquí. Por ejemplo, puedes enviar una respuesta de prueba:
-  res.send("Ruta POST /api/admin alcanzada");
+  try {
+    res.send("Ruta POST /api/admin alcanzada");
+  } catch (error) {
+    res.status(500).send({ error: error.toString() });
+  }
 });
 
 // Ruta protegida
-app.get("/some-protected-route", authorize, (req, res) => {
-  // validar el codigo para manejar la ruta
-  // mensaje de bienvenida al usuario
-  res.send("Bienvenido a la ruta protegida!");
-});
+app.get(
+  "/some-protected-route",
+  authorize,
+  checkRole("admin"),
+  async (req, res) => {
+    try {
+      // id del user debe de estar disponible en req.user.id
+      const userData = await getUserData(req.user.id);
+      res.send({ message: "Bienvenido a la ruta protegida!", data: userData });
+    } catch (error) {
+      res.status(500).send({ error: error.toString() });
+    }
+  }
+);
 
 // Ruta de administrador
 app.get("/admin-route", authorize, requireRole("admin"), (req, res) => {
-  // validar el codigo para manejar la ruta
   // mensaje de bienvenida al admin
   res.send("Bienvenido administrador a tu ruta exclusiva!");
 });
 
 app.use((err, req, res, next) => {
   logger.error(err.stack);
-  res.status(500).send("¡Algo salió mal!");
+  const status = err.status || 500;
+  const message = err.message || "¡Algo salió mal!";
+  res.status(status).send(message);
 });
 
 const connection = async () => {
   try {
     await mongoose.connect(uri);
+    logger.info("Conexión a la base de datos exitosa");
   } catch (error) {
     logger.error(error);
-
     throw error;
   }
 };
@@ -173,16 +187,6 @@ process.on("SIGINT", closeServer);
 process.on("SIGTERM", closeServer);
 
 async function closeServer() {
-  logger.info("cerrando el servidor...");
-
-  httpServer.close(() => {
-    logger.info("servidor HTTP cerrado.");
-  });
-
-  socketServer.close(() => {
-    logger.info("servidor de socket cerrado");
-  });
-
   try {
     await mongoose.connection.close();
     logger.info("conexion a la base de datos cerrada");
@@ -190,10 +194,33 @@ async function closeServer() {
     logger.error("error al cerrar la conexion a la base de datos");
   }
 
+  httpServer.close((err) => {
+    if (err) {
+      logger.error("Hubo un error al cerrar el servidor HTTP:", err);
+    } else {
+      logger.info("servidor HTTP cerrado exitosamente.");
+    }
+  });
+
+  socketServer.close((err) => {
+    if (err) {
+      logger.error("Hubo un error al cerrar el servidor de socket:", err);
+    } else {
+      logger.info("servidor de socket cerrado exitosamente.");
+    }
+  });
+
   process.exit(0);
 }
 
 //gmail
+
+if (!process.env.GMAIL_USER || !process.env.GMAIL_PASS) {
+  throw new Error(
+    "Las variables de entorno GMAIL_USER y GMAIL_PASS deben estar definidas"
+  );
+}
+
 app.post("/mail", async (req, res) => {
   let transporter = nodemailer.createTransport({
     service: "gmail",
@@ -276,7 +303,7 @@ app.use((err, req, res, next) => {
   const status = err.status || 500;
   const message = err.message || "Internal Mocking Server Error";
   res.status(status).send(message);
-})
+});
 
 const errorDictionary = {
   ProductNotFound: "El producto no se encontró",
