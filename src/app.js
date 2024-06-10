@@ -75,13 +75,13 @@ app.get(
   "/some-protected-route",
   authorize,
   checkRole("admin"),
-  async (req, res) => {
+  async (req, res, next) => {
     try {
       // id del user debe de estar disponible en req.user.id
       const userData = await getUserData(req.user.id);
       res.send({ message: "Bienvenido a la ruta protegida!", data: userData });
     } catch (error) {
-      res.status(500).send({ error: error.toString() });
+      next(error);
     }
   }
 );
@@ -93,9 +93,8 @@ app.get("/admin-route", authorize, requireRole("admin"), (req, res) => {
 });
 
 app.use((err, req, res, next) => {
-  logger.error(err.stack);
   const status = err.status || 500;
-  const message = err.message || "¡Algo salió mal!";
+  const message = errorDictionary[err.message] || "¡Algo salió mal!";
   res.status(status).send(message);
 });
 
@@ -162,8 +161,16 @@ socketServer.on("connection", (socket) => {
 
   socket.on("addToCart", async (data) => {
     try {
+      const product = await PMDB.getProduct(data.productId);
+      if (!product) {
+        socket.emit("error", { message: "Producto no encontrado." });
+        return;
+      }
+      if (data.quantity <= 0) {
+        socket.emit("error", { message: "Cantidad inválida." });
+        return;
+      }
       await CMDB.addProductToCart(data, cartId);
-
       socket.emit("addedSuccessfully", data);
     } catch (error) {
       logger.error(error.message);
@@ -213,12 +220,15 @@ async function closeServer() {
   process.exit(0);
 }
 
-//gmail
-
-if (!process.env.GMAIL_USER || !process.env.GMAIL_PASS) {
-  throw new Error(
-    "Las variables de entorno GMAIL_USER y GMAIL_PASS deben estar definidas"
-  );
+//gmail/sms
+if (
+  !process.env.GMAIL_USER ||
+  !process.env.GMAIL_PASS ||
+  !process.env.TWILIO_ACCOUNT_SID ||
+  !process.env.TWILIO_AUTH_TOKEN ||
+  !process.env.TWILIO_SMS_NUMBER
+) {
+  throw new Error("Las variables de entorno necesarias no están definidas");
 }
 
 app.post("/mail", async (req, res) => {
