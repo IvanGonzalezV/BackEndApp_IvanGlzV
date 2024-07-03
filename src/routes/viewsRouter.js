@@ -108,7 +108,10 @@ router.get("/carts/:cartid", auth, async (req, res)=>{
 
         }) 
 
-    }catch{}
+    }catch (error) {
+        console.error(error.message)
+        res.status(500).render("errorPage",{})
+    }
 
 })
 

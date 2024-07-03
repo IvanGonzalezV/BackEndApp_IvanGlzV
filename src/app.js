@@ -10,9 +10,9 @@ import cartsRouter from "./routes/cartsRouter.js";
 import viewsRouter from "./routes/viewsRouter.js";
 import cookiesRouter from "./routes/cookiesRouter.js";
 import sessionsRouter from "./routes/sessionsRouter.js";
-import __dirname from "./utils.js";
-import config from "./config.js";
-import logger from "./logger.js";
+import __dirname from "./utils/utils.js";
+import config from "./config/config.js";
+import logger from "./utils/logger.js";
 import adminRoutes from "./routes/adminRoutes.js";
 
 const app = express();
@@ -56,10 +56,39 @@ app.use("/", viewsRouter);
 app.use("/cookies", cookiesRouter);
 
 app.use((err, req, res, next) => {
+  logger.error(`Error: ${err.message}`);
+  logger.error(`Stack: ${err.stack}`);
   const status = err.status || 500;
   const message = errorDictionary[err.message] || "¡Algo salió mal!";
   res.status(status).send(message);
 });
+
+app.get("/mockingproducts", (req, res, next) => {
+  try {
+    let products = [];
+    for (let i = 0; i < 100; i++) {
+      products.push({
+        name: faker.commerce.productName(),
+        price: faker.commerce.price(),
+        // Agregar + campos si se requieren
+      });
+    }
+    res.json(products); // Envia la respuesta al cliente
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.use((err, req, res, next) => {
+  const status = err.status || 500;
+  const message = err.message || "Internal Mocking Server Error";
+  res.status(status).send(message);
+});
+
+const errorDictionary = {
+  ProductNotFound: "El producto no se encontró",
+  CartNotFound: "El carrito no se encontró",
+};
 
 const connection = async () => {
   try {
@@ -102,3 +131,5 @@ async function closeServer() {
 
   process.exit(0);
 }
+
+export default app;
