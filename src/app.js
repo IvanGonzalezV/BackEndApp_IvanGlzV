@@ -14,6 +14,8 @@ import __dirname from "./utils/utils.js";
 import config from "./config/config.js";
 import logger from "./utils/logger.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUI from "swagger-ui-express";
 
 const app = express();
 
@@ -54,6 +56,23 @@ app.use("/api/sessions", sessionsRouter);
 app.use("/auth", sessionsRouter);
 app.use("/", viewsRouter);
 app.use("/cookies", cookiesRouter);
+
+//swagger
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.1",
+    info: {
+      title: "Products API",
+      version: "1.0.0",
+      description: "A simple products API",
+    },
+  },
+  apis: [`./**/*.yaml`],
+};
+
+const specs = swaggerJSDoc(swaggerOptions);
+//endpoint swagger
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
 app.use((err, req, res, next) => {
   logger.error(`Error: ${err.message}`);

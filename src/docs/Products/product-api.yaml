@@ -1,0 +1,270 @@
+openapi: 3.0.1
+info:
+  title: Products API
+  version: 1.0.0
+  description: A simple products API
+servers:
+  - url: http://localhost:8080
+    description: Local server
+
+paths:
+  /api/products:
+    get:
+      summary: Obtener productos con paginación y filtros
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: Número máximo de productos por página
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Número de página a recuperar
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum: [asc, desc]
+          description: Ordenar por precio ascendente o descendente
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: Filtrar por categoría
+        - in: query
+          name: status
+          schema:
+            type: string
+          description: Filtrar por estado
+      responses:
+        200:
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+                  totalPages:
+                    type: integer
+                  prevPage:
+                    type: integer
+                  nextPage:
+                    type: integer
+                  page:
+                    type: integer
+                  hasPrevPage:
+                    type: boolean
+                  hasNextPage:
+                    type: boolean
+                  prevLink:
+                    type: string
+                    nullable: true
+                  nextLink:
+                    type: string
+                    nullable: true
+        400:
+          description: Error en la solicitud
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+    post:
+      summary: Crear un nuevo producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewProduct'
+      responses:
+        201:
+          description: Producto creado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Producto creado correctamente
+        400:
+          description: Error al crear el producto
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Hubo un error al crear el producto. Asegúrate de haber completado todos los campos y que el producto no exista en la base de datos
+
+  /api/products/{productid}:
+    get:
+      summary: Obtener un producto por ID
+      parameters:
+        - in: path
+          name: productid
+          required: true
+          schema:
+            type: string
+          description: ID del producto
+      responses:
+        200:
+          description: Detalles del producto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        404:
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: No existe un producto con ese id
+    put:
+      summary: Actualizar un producto por ID
+      parameters:
+        - in: path
+          name: productid
+          required: true
+          schema:
+            type: string
+          description: ID del producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProduct'
+      responses:
+        200:
+          description: Producto actualizado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: El producto ha sido modificado correctamente
+        400:
+          description: Error al actualizar el producto
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Hubo un error modificando el producto. Asegúrate de que el ID del producto y el campo a modificar existan y que la modificación posea un valor válido
+    delete:
+      summary: Eliminar un producto por ID
+      parameters:
+        - in: path
+          name: productid
+          required: true
+          schema:
+            type: string
+          description: ID del producto
+      responses:
+        200:
+          description: Producto eliminado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Producto eliminado correctamente
+        400:
+          description: Error al eliminar el producto
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Hubo un error al intentar eliminar el producto. Asegúrate de que el ID proporcionado coincida con el de un producto existente
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        stock:
+          type: integer
+        category:
+          type: string
+        status:
+          type: string
+        thumbnails:
+          type: array
+          items:
+            type: string
+    NewProduct:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        stock:
+          type: integer
+        category:
+          type: string
+        status:
+          type: string
+        thumbnails:
+          type: array
+          items:
+            type: string
+    UpdateProduct:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        stock:
+          type: integer
+        category:
+          type: string
+        status:
+          type: string
+        thumbnails:
+          type: array
+          items:
+            type: string
