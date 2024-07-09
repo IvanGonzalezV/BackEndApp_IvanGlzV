@@ -1,0 +1,84 @@
+openapi: 3.0.1
+info:
+  title: API de Carritos
+  description: Esta API permite gestionar carritos de compras.
+  version: 1.0.0
+servers:
+  - url: /api-carts
+  
+paths:
+  /:
+    get:
+      summary: Obtiene todos los carritos
+      responses:
+        '200':
+          description: Una lista de carritos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+    post:
+      summary: Crea un nuevo carrito
+      responses:
+        '200':
+          description: Carrito creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+  /{cartId}:
+    get:
+      summary: Obtiene un carrito por su ID
+      parameters:
+        - name: cartId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Detalles del carrito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '404':
+          description: Carrito no encontrado
+    delete:
+      summary: Elimina un carrito por su ID
+      parameters:
+        - name: cartId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Carrito eliminado exitosamente
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        id:
+          type: string
+          description: El ID único del carrito
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          description: El ID único del producto
+        name:
+          type: string
+          description: El nombre del producto
+        price:
+          type: number
+          format: float
+          description: El precio del producto

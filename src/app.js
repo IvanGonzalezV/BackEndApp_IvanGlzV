@@ -57,8 +57,8 @@ app.use("/auth", sessionsRouter);
 app.use("/", viewsRouter);
 app.use("/cookies", cookiesRouter);
 
-//swagger
-const swaggerOptions = {
+// Swagger para productos
+const swaggerOptionsProducts = {
   definition: {
     openapi: "3.0.1",
     info: {
@@ -67,12 +67,29 @@ const swaggerOptions = {
       description: "A simple products API",
     },
   },
-  apis: [`./**/*.yaml`],
+  apis: [`./src/docs/Products/products-api.yaml`],
 };
 
-const specs = swaggerJSDoc(swaggerOptions);
-//endpoint swagger
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
+const specsProducts = swaggerJSDoc(swaggerOptionsProducts);
+
+// Swagger para carritos
+const swaggerOptionsCarts = {
+  definition: {
+    openapi: "3.0.1",
+    info: {
+      title: "Carts API",
+      version: "1.0.0",
+      description: "A simple carts API",
+    },
+  },
+  apis: [`./src/docs/Carts/carts-api.yaml`],
+};
+
+const specsCarts = swaggerJSDoc(swaggerOptionsCarts);
+
+// Endpoints Swagger
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specsProducts));
+app.use("/api-carts", swaggerUI.serve, swaggerUI.setup(specsCarts));
 
 app.use((err, req, res, next) => {
   logger.error(`Error: ${err.message}`);
