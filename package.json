@@ -6,7 +6,7 @@
   "main": "main.js",
   "scripts": {
     "start": "nodemon src/app.js",
-    "test": "mocha src/test.js",
+    "test": "mocha",
     "test:echo": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -42,6 +42,6 @@
     "@faker-js/faker": "^8.4.1",
     "chai": "^5.1.1",
     "chai-http": "^5.0.0",
-    "mocha": "^10.4.0"
+    "mocha": "^10.6.0"
   }
 }
