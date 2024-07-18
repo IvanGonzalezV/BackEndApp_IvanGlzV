@@ -7,10 +7,10 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const { assert } = chai;
-chai.use(chaiHttp); // Esto extiende chai con chaiHttp
+chai.use(chaiHttp); // config para chaihttp
 
 const uri = process.env.MONGODB_URI;
-const logger = console; // Uso de console como logger para simplificar
+const logger = console; // console como logger para simplificar
 
 const connection = async () => {
   try {
@@ -32,7 +32,7 @@ describe("test ProductsRouter", function () {
   });
 
   it('get("/:productid") debe de retornar un producto por su id', function (done) {
-    const productId = "661f8219a5b7e2f6dbf013ef";
+    const productId = "661f8219a5b7e2f6dbf013ea";
     chai
       .request(app)
       .get(`/api/products/${productId}`)

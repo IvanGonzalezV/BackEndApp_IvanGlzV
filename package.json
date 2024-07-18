@@ -42,6 +42,7 @@
     "@faker-js/faker": "^8.4.1",
     "chai": "^5.1.1",
     "chai-http": "^5.0.0",
-    "mocha": "^10.6.0"
+    "mocha": "^10.6.0",
+    "supertest": "^7.0.0"
   }
 }
