@@ -1,6 +1,6 @@
 import express from "express";
 import crypto from "crypto";
-import { enviarCorreoRecuperacion } from "../utils/mailer"; 
+import { enviarCorreoRecuperacion } from "../socialnet/mailer.js";
 import bcrypt from "bcrypt";
 
 const router = express.Router();
@@ -23,8 +23,6 @@ router.post("/solicitar-recuperacion", async (req, res) => {
 
   res.send("Se ha enviado un correo para restablecer tu contraseña.");
 });
-
-
 
 router.get("/recuperar/:token", async (req, res) => {
   const { token } = req.params;
@@ -64,8 +62,5 @@ router.post("/recuperar/:token", async (req, res) => {
 
   res.send("Contraseña actualizada correctamente.");
 });
-
-
-
 
 export default router;

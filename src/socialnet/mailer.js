@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import logger from "./logger.js";
+import logger from "../utils/logger.js";
 
 // este configura el transporter de nodemailer
 const transporter = nodemailer.createTransport({
@@ -30,24 +30,7 @@ export const enviarCorreoRecuperacion = async (email, token) => {
   }
 };
 
-// esta es la ruta POST para el envio del correo de recuperacion
-app.post("/mail", async (req, res) => {
-  const { email, token } = req.body;
-  if (!email || !token) {
-    return res.status(400).send("Faltan datos necesarios.");
-  }
-
-  try {
-    await enviarCorreoRecuperacion(email, token);
-    res.send("Correo de recuperación enviado correctamente.");
-  } catch (error) {
-    logger.error(error);
-    res.status(500).send("Error al enviar el correo de recuperación.");
-  }
-});
-
-// esta es una tuta POST adicional para enviar correos de prueba
-app.post("/mail/test", async (req, res) => {
+export const enviarCorreoPrueba = async (req, res) => {
   let mailOptions = {
     from: "googlPass <iglzv7@gmail.com>", // remitente
     to: "irgovi7@gmail.com", // destinatario
@@ -75,11 +58,13 @@ app.post("/mail/test", async (req, res) => {
     logger.error(error);
     res.status(500).send("Hubo un error al enviar el correo de prueba.");
   }
-});
+};
 
 // ruta GET para verificar el servicio
-app.get("/mail", (req, res) => {
+export const configurarRutas =(app) => {
+  app.get("/mail", (req, res) => {
   res.send("Ruta GET /mail funcionando correctamente.");
 });
+}
 
 export default transporter;

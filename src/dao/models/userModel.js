@@ -44,8 +44,13 @@ const userSchema = mongoose.Schema({
     required: true,
     enum: ["user", "premium"], // este asegurara que solo estos 2 roles se puedan asignar
     default: "user",
-  }
+  },
 
+  documents: {
+    type: [{ name: String, reference: String }],
+  },
+
+  last_connection: { type: Date }
 });
 
 const userModel = mongoose.model('users', userSchema)
