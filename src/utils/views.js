@@ -95,13 +95,6 @@ router.get("/cookies", auth, (req, res) => {
   });
 });
 
-router.get("/login", authLogged, (req, res) => {
-  res.render("login", {
-    style: "styles.css",
-    failedLogin: req.session.failedLogin ?? false,
-  });
-});
-
 router.get("/register", authLogged, (req, res) => {
   res.render("register", {
     style: "styles.css",

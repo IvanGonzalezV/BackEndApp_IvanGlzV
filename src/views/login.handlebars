@@ -1,15 +1,12 @@
-    <form class="form" method="post" action="/api/sessions/login">
-        <div class="title">
-            Welcome,<br><span>sign up to continue</span>
-        </div>
-        <input class="input" name="email" placeholder="Email" type="email">
-        <input class="input" name="password" placeholder="Password" type="password">
-        <button class="button-confirm" type="submit">Log in→</button>
-        {{#if failedLogin}}
-            <p style="color:red">usuario o contraseña incorrectos</p>
-        {{/if}}
-        <a href="http://localhost:8080/register">Register</a>
-    </form>
-
-
-
+<form class="form" method="post" action="/api/sessions/login">
+  <div class="title">
+    Welcome,<br /><span>sign up to continue</span>
+  </div>
+  <input class="input" name="email" placeholder="Email" type="email" />
+  <input class="input" name="password" placeholder="Password" type="password" />
+  <button class="button-confirm" type="submit">Log in→</button>
+  {{#if failedLogin}}
+    <p style="color:red">usuario o contraseña incorrectos</p>
+  {{/if}}
+  <a href="http://localhost:8080/register">Register</a>
+</form>

@@ -10,16 +10,15 @@ import cartsRouter from "./routes/cartsRouter.js";
 import viewsRouter from "./routes/viewsRouter.js";
 import cookiesRouter from "./routes/cookiesRouter.js";
 import sessionsRouter from "./routes/sessionsRouter.js";
-import recoveryRoutes from "./routes/recoveryRoutes.js";  
+import recoveryRoutes from "./routes/recoveryRoutes.js";
 import __dirname from "./utils/utils.js";
 import config from "./config/config.js";
 import logger from "./utils/logger.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
-import { enviarCorreoRecuperacion, enviarCorreoPrueba } from "./socialnet/mailer.js";
+import {  enviarCorreoRecuperacion } from "./socialnet/mailer.js";
 import path from "path";
-import { fileURLToPath } from "url";
 
 const app = express();
 
@@ -51,7 +50,7 @@ app.use(
 );
 
 app.engine("handlebars", handlebars.engine());
-app.set("views", path.join(__dirname, 'views'));
+app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "handlebars");
 
 app.use("/api/products", productsRouter);
@@ -186,6 +185,6 @@ app.post("/mail", async (req, res) => {
     logger.error(error);
     res.status(500).send("Error al enviar el correo de recuperación.");
   }
-})
+});
 
 export default app;
