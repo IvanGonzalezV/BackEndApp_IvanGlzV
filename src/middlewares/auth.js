@@ -7,6 +7,7 @@ import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import csurf from "csurf";
 import dotenv from "dotenv";
 import config from "../../src/config/config.js";
+import upload from "../middlewares/multerConfig.js";
 
 const GITHUB_CLIENT_ID = config.GITHUB_CLIENT_ID;
 const GITHUB_CLIENT_SECRET = config.GITHUB_CLIENT_SECRET;
@@ -186,5 +187,47 @@ router.get("/change-role/:id", async (req, res) => {
     res.status(500).send("Error al cambiar el rol del usuario");
   }
 });
+
+// endpoint file upload
+router.post(
+  "/upload-documents",
+  authorize,
+  upload.array("documents", 10),
+  async (req, res) => {
+    try {
+      const userId = req.user.userId;
+      const user = await userModel.findById(userId);
+
+      if (!user) {
+        return res.status(404).send("Usuario no encontrado");
+      }
+
+      const documents = req.files.map((file) => ({
+        name: file.fieldname,
+        reference: file.path,
+      }));
+
+      user.documents = user.documents.concat(documents);
+
+      // valida que el usuario subio los files requeridos
+      const requiredDocuments = [
+        "id",
+        "comprobante de domicilio",
+        "estado de cuenta",
+      ];
+      const uploadedDocuments = user.documents.map((doc) => doc.name);
+
+      if (requiredDocuments.every((doc) => uploadedDocuments.includes(doc))) {
+        user.role = "premium";
+      }
+
+      await user.save();
+
+      res.status(200).send("Documentos subidos exitosamente");
+    } catch (error) {
+      res.status(500).send("Error al subir documentos");
+    }
+  }
+);
 
 export default passport;

@@ -60,6 +60,7 @@ app.use("/auth", sessionsRouter);
 app.use("/", viewsRouter);
 app.use("/cookies", cookiesRouter);
 app.use("/recovery", recoveryRoutes);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Swagger para productos
 const swaggerOptionsProducts = {
