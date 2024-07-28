@@ -158,4 +158,33 @@ export const requireRole = (role) => (req, res, next) => {
   next();
 };
 
+router.get("/change-role/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await userModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).send("Usuario no encontrado");
+    }
+
+    if (
+      user.role === "user" &&
+      (!user.documents || user.documents.length === 0)
+    ) {
+      return res
+        .status(400)
+        .send(
+          "El usuario debe subir los documentos requeridos para cambiar a premium"
+        );
+    }
+
+    user.role = user.role === "user" ? "premium" : "user";
+    await user.save();
+
+    res.status(200).send(`El rol del usuario ha sido cambiado a ${user.role}`);
+  } catch (error) {
+    res.status(500).send("Error al cambiar el rol del usuario");
+  }
+});
+
 export default passport;
