@@ -30,6 +30,13 @@ export const logout = async (req, res) => {
 
     await BlacklistedToken.create({ token });
 
+    const decoded = jwt.decode(token, JWT_SECRET);
+    const user = await userModel.findById(decoded.userId);
+    if (user) {
+      user.last_connection = new Date();
+      await user.save();
+    }
+
     res.status(200).json({ message: "Logout successful" });
   } catch (err) {
     res.status(500).json({ error: "Error al Cerrar Sesion" });
@@ -56,6 +63,9 @@ passport.use(
           user.accessToken = accessToken; // Actualiza el token de acceso
           await user.save();
         }
+
+        user.last_connection = new Date();
+        await user.save();
 
         const token = generateToken(user);
         user.jwt = token;

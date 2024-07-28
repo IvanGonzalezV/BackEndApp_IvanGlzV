@@ -114,19 +114,6 @@ export class productManagerDB {
       console.error(error.message);
     }
   }
-
-  async deleteProduct(id) {
-    try {
-      const productExists = await this.getProductById(id);
-      if (!productExists) {
-        return;
-      }
-      const result = await productModel.deleteOne({ _id: id });
-      return result;
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
 }
 
 export const PMDB = new productManagerDB();

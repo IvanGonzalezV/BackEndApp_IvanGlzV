@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const usersCollection = "users"
+const usersCollection = "users";
 
 const userSchema = mongoose.Schema({
   first_name: {
@@ -50,9 +50,9 @@ const userSchema = mongoose.Schema({
     type: [{ name: String, reference: String }],
   },
 
-  last_connection: { type: Date }
+  last_connection: { type: Date },
 });
 
-const userModel = mongoose.model('users', userSchema)
+const userModel = mongoose.model("users", userSchema);
 
-export default userModel
+export default userModel;

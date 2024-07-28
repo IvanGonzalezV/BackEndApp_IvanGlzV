@@ -1020,3 +1020,38 @@
 {"level":"error","message":"Stack: Error: Failed to lookup view \"login\" in views directory \"C:\\Users\\pamel\\OneDrive\\Escritorio\\CODERHOUSE\\Backend\\Proyectos\\BackEnd_Gonzalez Vargas Ivan\\views\"\n    at Function.render (C:\\Users\\pamel\\OneDrive\\Escritorio\\CODERHOUSE\\Backend\\Proyectos\\BackEnd_Gonzalez Vargas Ivan\\node_modules\\express\\lib\\application.js:597:17)\n    at ServerResponse.render (C:\\Users\\pamel\\OneDrive\\Escritorio\\CODERHOUSE\\Backend\\Proyectos\\BackEnd_Gonzalez Vargas Ivan\\node_modules\\express\\lib\\response.js:1048:7)\n    at file:///C:/Users/pamel/OneDrive/Escritorio/CODERHOUSE/Backend/Proyectos/BackEnd_Gonzalez%20Vargas%20Ivan/src/routes/viewsRouter.js:99:7\n    at Layer.handle [as handle_request] (C:\\Users\\pamel\\OneDrive\\Escritorio\\CODERHOUSE\\Backend\\Proyectos\\BackEnd_Gonzalez Vargas Ivan\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\pamel\\OneDrive\\Escritorio\\CODERHOUSE\\Backend\\Proyectos\\BackEnd_Gonzalez Vargas Ivan\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at authLogged (file:///C:/Users/pamel/OneDrive/Escritorio/CODERHOUSE/Backend/Proyectos/BackEnd_Gonzalez%20Vargas%20Ivan/src/middlewares/auth.js:122:10)\n    at Layer.handle [as handle_request] (C:\\Users\\pamel\\OneDrive\\Escritorio\\CODERHOUSE\\Backend\\Proyectos\\BackEnd_Gonzalez Vargas Ivan\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\pamel\\OneDrive\\Escritorio\\CODERHOUSE\\Backend\\Proyectos\\BackEnd_Gonzalez Vargas Ivan\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\pamel\\OneDrive\\Escritorio\\CODERHOUSE\\Backend\\Proyectos\\BackEnd_Gonzalez Vargas Ivan\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\pamel\\OneDrive\\Escritorio\\CODERHOUSE\\Backend\\Proyectos\\BackEnd_Gonzalez Vargas Ivan\\node_modules\\express\\lib\\router\\layer.js:95:5)","service":"user-service"}
 {"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
 {"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
