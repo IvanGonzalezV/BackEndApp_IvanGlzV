@@ -1164,3 +1164,26 @@
 {"level":"info","message":"conexion a la base de datos cerrada","service":"user-service"}
 {"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
 {"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Servidor activo en http://localhost:8080","service":"user-service"}
+{"level":"info","message":"Conexión a la base de datos exitosa","service":"user-service"}
+{"level":"info","message":"Correo de recuperación enviado: 250 2.0.0 OK  1722284738 586e51a60fabf-26577232a9bsm1927057fac.47 - gsmtp","service":"user-service"}

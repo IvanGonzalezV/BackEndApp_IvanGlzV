@@ -4,6 +4,8 @@ import { productModel } from "../dao/models/productModel.js";
 import { CMDB } from "../dao/cartManagerDB.js";
 import { cartModel } from "../dao/models/cartModel.js";
 import { auth, authLogged } from "../middlewares/auth.js";
+import { enviarCorreoRecuperacion } from "../socialnet/mailer.js";
+import { generateToken } from "../utils/utils.js";
 
 const router = Router();
 
@@ -120,6 +122,25 @@ router.get("/profile", auth, (req, res) => {
     style: "styles.css",
     user: req.session.user,
   });
+});
+
+router.get("/recover", (req, res) => {
+  res.render("recoverPassword", {
+    style: "styles.css",
+  });
+});
+
+router.post("/recover", async (req, res) => {
+  const { email } = req.body;
+  const token = generateToken(); // Implementa una función para generar el token
+
+  try {
+    await enviarCorreoRecuperacion(email, token);
+    res.send("Correo de recuperación enviado correctamente.");
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Hubo un error al enviar el correo de recuperación.");
+  }
 });
 
 export default router;
