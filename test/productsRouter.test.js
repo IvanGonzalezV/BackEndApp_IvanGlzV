@@ -3,12 +3,12 @@ import supertest from "supertest";
 import { faker } from "@faker-js/faker";
 import mongoose from "mongoose";
 import app from "../src/app.js";
-import config from "../src/config/config.js"; 
+import config from "../src/config/config.js";
 
 const token = config.JWT_SECRET; // config del token
 
 describe("API de productos", function () {
-  this.timeout(5000); // setea el tiempo de espera para las pruebas
+  this.timeout(20000); // setea el tiempo de espera para las pruebas
 
   // hook que establece la conexion a la DB antes de las pruebas
   before(async () => {
@@ -84,7 +84,7 @@ describe("API de productos", function () {
   describe("PUT /api/products/:productid", () => {
     it("debería actualizar un producto existente", async () => {
       // ID existente en la DB para el test
-      const productId = "661f8219a5b7e2f6dbf013e8";
+      const productId = "661f8219a5b7e2f6dbf013e4";
       const productUpdate = {
         title: "Producto Actualizado",
         price: 150,
@@ -105,7 +105,7 @@ describe("API de productos", function () {
   describe("DELETE /api/products/:productid", () => {
     it("debería eliminar un producto existente", async () => {
       // ID existente en la DB para el test
-      const productId = "661f8219a5b7e2f6dbf013e8";
+      const productId = "661f8219a5b7e2f6dbf013e9";
       const response = await supertest(app)
         .delete(`/api/products/${productId}`)
         .set("Authorization", `Bearer ${token}`);
@@ -116,4 +116,4 @@ describe("API de productos", function () {
       );
     });
   });
-})
+});

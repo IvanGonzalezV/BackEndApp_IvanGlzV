@@ -2,7 +2,7 @@ import * as chai from "chai";
 import mongoose from "mongoose";
 import request from "supertest";
 import app from "../src/app.js";
-import config from "../src/config/config.js"; 
+import config from "../src/config/config.js";
 
 const { assert } = chai;
 
