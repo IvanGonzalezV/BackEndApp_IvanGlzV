@@ -1,15 +1,12 @@
 import * as chai from "chai";
-import chaiHttp from "chai-http";
 import mongoose from "mongoose";
+import request from "supertest";
 import app from "../src/app.js";
-import dotenv from "dotenv";
-
-dotenv.config();
+import config from "../src/config/config.js"; 
 
 const { assert } = chai;
-chai.use(chaiHttp); // config para chaihttp
 
-const uri = process.env.MONGODB_URI;
+const uri = config.MONGODB_URI;
 const logger = console; // console como logger para simplificar
 
 const connection = async () => {
@@ -33,8 +30,7 @@ describe("test ProductsRouter", function () {
 
   it('get("/:productid") debe de retornar un producto por su id', function (done) {
     const productId = "661f8219a5b7e2f6dbf013ea";
-    chai
-      .request(app)
+    request(app)
       .get(`/api/products/${productId}`)
       .end((err, res) => {
         assert.equal(res.status, 200);

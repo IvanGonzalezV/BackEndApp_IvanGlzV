@@ -192,7 +192,7 @@ router.get("/change-role/:id", async (req, res) => {
 router.post(
   "/upload-documents",
   authorize,
-  upload.array("documents", 10),
+  upload.array("documents", 3),
   async (req, res) => {
     try {
       const userId = req.user.userId;
