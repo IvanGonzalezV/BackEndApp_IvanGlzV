@@ -24,6 +24,11 @@ describe("API de productos", function () {
     }
   });
 
+  // hook para cerrar la conexion a la db despues de las pruebas
+  after(async () => {
+    await mongoose.disconnect();
+  });
+
   // test para GET "/"
   describe("GET /api/products", () => {
     it("debería retornar todos los productos", async () => {
@@ -71,6 +76,7 @@ describe("API de productos", function () {
         .set("Authorization", `Bearer ${token}`);
       expect(response.status).to.equal(200);
       expect(response.body).to.be.an("object");
+      expect(response.body._id).to.equal(productId);
     });
   });
 
@@ -110,4 +116,4 @@ describe("API de productos", function () {
       );
     });
   });
-});
+})
