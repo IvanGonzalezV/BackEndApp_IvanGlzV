@@ -27,7 +27,7 @@ function generateToken(user) {
 
 export const logout = async (req, res) => {
   try {
-    const token = req.headers.authorization.split(" ")[1]; // Asume que el token se enviara en el encabezado de autorizacion como 'Bearer {token}'
+    const token = req.headers.authorization.split(" ")[1]; // asumira que el token se envia dentro del encabezado de autorizacion como 'Bearer {token}'
 
     await BlacklistedToken.create({ token });
 
@@ -61,7 +61,7 @@ passport.use(
             accessToken: accessToken,
           });
         } else {
-          user.accessToken = accessToken; // Actualiza el token de acceso
+          user.accessToken = accessToken; // actualiza el token de acceso
           await user.save();
         }
 

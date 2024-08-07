@@ -5,25 +5,27 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import path from "path";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUI from "swagger-ui-express";
+
 import productsRouter from "./routes/productsRouter.js";
 import cartsRouter from "./routes/cartsRouter.js";
 import viewsRouter from "./routes/viewsRouter.js";
 import cookiesRouter from "./routes/cookiesRouter.js";
 import sessionsRouter from "./routes/sessionsRouter.js";
 import recoveryRoutes from "./routes/recoveryRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
+import usersRouter from "./routes/usersRouter.js";
+import multer from "multer";
+
 import __dirname from "./utils/utils.js";
 import config from "./config/config.js";
 import logger from "./utils/logger.js";
-import adminRoutes from "./routes/adminRoutes.js";
-import swaggerJSDoc from "swagger-jsdoc";
-import swaggerUI from "swagger-ui-express";
-import {  enviarCorreoRecuperacion } from "./socialnet/mailer.js";
-import path from "path";
+import { enviarCorreoRecuperacion } from "./socialnet/mailer.js";
 
 const app = express();
-
 const PORT = process.env.PORT || 8080;
-
 const uri = config.MONGODB_URI;
 
 const httpServer = app.listen(PORT, () => {
@@ -32,7 +34,6 @@ const httpServer = app.listen(PORT, () => {
 
 const socketServer = new Server(httpServer);
 
-app.use(adminRoutes);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(`${__dirname}/../public`));
@@ -56,13 +57,13 @@ app.set("view engine", "handlebars");
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/sessions", sessionsRouter);
-app.use("/auth", sessionsRouter);
+app.use("/auth", usersRouter);
 app.use("/", viewsRouter);
 app.use("/cookies", cookiesRouter);
 app.use("/recovery", recoveryRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Swagger para productos
+// swagger para productos
 const swaggerOptionsProducts = {
   definition: {
     openapi: "3.0.1",
@@ -72,12 +73,12 @@ const swaggerOptionsProducts = {
       description: "A simple products API",
     },
   },
-  apis: [`./src/docs/Products/products-api.yaml`],
+  apis: ["./src/docs/Products/products-api.yaml"],
 };
 
 const specsProducts = swaggerJSDoc(swaggerOptionsProducts);
 
-// Swagger para carritos
+// swagger para carritos
 const swaggerOptionsCarts = {
   definition: {
     openapi: "3.0.1",
@@ -87,12 +88,11 @@ const swaggerOptionsCarts = {
       description: "A simple carts API",
     },
   },
-  apis: [`./src/docs/Carts/carts-api.yaml`],
+  apis: ["./src/docs/Carts/carts-api.yaml"],
 };
 
 const specsCarts = swaggerJSDoc(swaggerOptionsCarts);
 
-// Endpoints Swagger
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specsProducts));
 app.use("/api-carts", swaggerUI.serve, swaggerUI.setup(specsCarts));
 
@@ -111,19 +111,13 @@ app.get("/mockingproducts", (req, res, next) => {
       products.push({
         name: faker.commerce.productName(),
         price: faker.commerce.price(),
-        // Agregar + campos si se requieren
+        // agregar + campos si se requieren
       });
     }
-    res.json(products); // Envia la respuesta al cliente
+    res.json(products);
   } catch (err) {
     next(err);
   }
-});
-
-app.use((err, req, res, next) => {
-  const status = err.status || 500;
-  const message = err.message || "Internal Mocking Server Error";
-  res.status(status).send(message);
 });
 
 const errorDictionary = {
@@ -187,5 +181,26 @@ app.post("/mail", async (req, res) => {
     res.status(500).send("Error al enviar el correo de recuperación.");
   }
 });
+
+// config de multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+// endpoint para subir archivos
+app.post("/upload", upload.single("file"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).send("No file uploaded.");
+  }
+  res.send("Archivo subido exitosamente");
+});
+
 
 export default app;
