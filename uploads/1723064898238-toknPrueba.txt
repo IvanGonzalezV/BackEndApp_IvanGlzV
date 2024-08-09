@@ -1,9 +1,0 @@
-{
-    "auth": true,
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YjNkZDA5ZjY1YjBlY2FiNTgyOThiNSIsImlhdCI6MTcyMzA2MzU2MSwiZXhwIjoxNzIzMTQ5OTYxfQ.IdCHtlBB0E9HmFN7p3yLOm9PPpw6MEUFxyQrh3x5EyU"
-}
-
-{
-    "auth": true,
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YjNkZDA5ZjY1YjBlY2FiNTgyOThiNSIsImlhdCI6MTcyMzA2MzcwOCwiZXhwIjoxNzIzMTUwMTA4fQ.gLCfSPeIgFwgwfk0Cu8YJZ736Yan_G1cFSyiiO-I6xk"
-}
